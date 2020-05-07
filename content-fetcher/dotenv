@@ -1,0 +1,11 @@
+PUID= <id -u -youruser->
+PGID= <id -g -youruser->
+TZ= <your timezone>
+CONFIG_PATH= <path to the folder housing config files for all containers>
+DATA_PATH= <path to the folder housing data for all containers>
+MEDIA_PATH= <path to a general multi - Media folder>
+OPENVPN_PROVIDER= <check in https://haugene.github.io/docker-transmission-openvpn/supported-providers/>
+OPENVPN_USERNAME= <your VPN provider username>
+OPENVPN_PASSWORD= <your VPN provider password>
+OPENVPN_CONFIG= <exemple : nl-12.protonvpn.com.udp>
+LOCAL_NETWORK= <exemple : 192.168.1.0/24>
