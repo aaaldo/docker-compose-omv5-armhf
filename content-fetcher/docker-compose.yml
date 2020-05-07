@@ -1,0 +1,125 @@
+---
+version: "3.6"
+services:
+
+  transmission-openvpn:
+      image: haugene/transmission-openvpn:latest-armhf
+      container_name: "transmission"
+      cap_add:
+        - NET_ADMIN
+      devices:
+        - "/dev/net/tun"
+      restart: unless-stopped
+      networks:
+        - transmission-net
+      ports:
+        - "9091:9091"
+      dns:
+        - 1.1.1.1
+        - 8.8.8.8
+      volumes:
+        - /etc/localtime:/etc/localtime:ro
+        - ${CONFIG_PATH}:/config
+        - ${DATA_PATH}:/data
+      environment:
+            - PGID=${PGID}
+            - PUID=${PUID}          
+            - WEBPROXY_ENABLED=true
+            - OPENVPN_PROVIDER=${OPENVPN_PROVIDER}
+            - OPENVPN_USERNAME=${OPENVPN_USERNAME}
+            - OPENVPN_PASSWORD=${OPENVPN_PASSWORD}
+            - OPENVPN_CONFIG=${OPENVPN_CONFIG}
+            - OPENVPN_OPTS=--inactive 120 --ping 10 --ping-exit 30
+            - TRANSMISSION_RATIO_LIMIT_ENABLED=true
+            - TRANSMISSION_DOWNLOAD_DIR=/data/complete
+            - GLOBAL_APPLY_PERMISSIONS=false
+            - TRANSMISSION_RATIO_LIMIT=2
+            - TRANSMISSION_UMASK=022
+            - ENABLE_UFW=false
+            - LOCAL_NETWORK=${LOCAL_NETWORK}
+            - CREATE_TUN_DEVICE=true
+
+  jackett:
+    image: linuxserver/jackett:latest
+    container_name: jackett
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${CONFIG_PATH}:/config
+    network_mode: host
+    dns:
+        - 1.1.1.1
+        - 8.8.8.8
+    ports:
+      - 9117:9117
+    restart: unless-stopped    
+    
+  sonarr:
+    image: linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}0
+      - TZ=${TZ}
+      - UMASK_SET=022
+    volumes:
+      - ${CONFIG_PATH}/Sonarr:/config
+      - ${MEDIA_PATH}/TV/:/tv
+      - ${DATA_PATH}/complete:/downloads
+      - ${DATA_PATH}:/data
+    network_mode: host
+    dns:
+        - 1.1.1.1
+        - 8.8.8.8
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+  
+  lidarr:
+    image: linuxserver/lidarr:latest
+    container_name: lidarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - UMASK_SET=022
+    volumes:
+      - ${CONFIG_PATH}/Lidarr:/config
+      - ${MEDIA_PATH}/Music/:/music
+      - ${DATA_PATH}/complete:/downloads
+      - ${DATA_PATH}:/data
+    network_mode: host
+    dns:
+        - 1.1.1.1
+        - 8.8.8.8
+    ports:
+      - 8686:8686
+    restart: unless-stopped
+
+  radarr:
+    image: linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - UMASK_SET=022
+    volumes:
+      - ${CONFIG_PATH}/Radarr:/config
+      - ${MEDIA_PATH}/Movies/:/movies
+      - ${DATA_PATH}/complete:/downloads
+      - ${DATA_PATH}:/data
+    network_mode: host
+    dns:
+        - 1.1.1.1
+        - 8.8.8.8
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+
+networks:
+  transmission-net:
+    external:
+      name: transmission-net
