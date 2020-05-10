@@ -36,7 +36,7 @@ The content-fetcher stack will deploy the following images :
 2. Install git : ```sudo apt-get install git```
 3. Fetch this repository content : ```git clone https://github.com/aaaldo/docker-compose-omv5-armhf.git```
 4. Go to the ```docker-compose-omv5-armhf/cloud``` directory
-5. Open the .env file using nano : ```nano .env``` and edit its content with your informations
+5. Rename and open the .env file : ```mv dotenv .env && nano .env``` and edit its content with your informations
 6. Deploy the stack : ```docker-compose -f docker-compose.yml up -d```
 7. Repeat the step 4, 5 and 6 for the ```docker-compose-omv5-armhf/content-fetcher``` directory
 8. You can then configure each containers individually. I'd suggest you those youtube channels for more informations and tutorials :
