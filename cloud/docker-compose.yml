@@ -1,0 +1,129 @@
+version: '3.6'
+services:
+    duckdns:
+        image: linuxserver/duckdns
+        container_name: duckdns
+        environment:
+            - 'PUID=${PUID}'
+            - 'PGID=${PGID}'
+            - 'TZ=${TZ}'
+            - 'SUBDOMAINS=${DOMAINNAME}'
+            - 'TOKEN=${DUCKDNS_TOKEN}'
+            - LOG_FILE=true
+        network_mode: host
+        volumes:
+            - '${CONFIG_PATH}/DuckDns:/config'
+        restart: unless-stopped
+    traefik:
+        hostname: traefik
+        image: traefik:1.7.24
+        container_name: traefik
+        restart: always
+        domainname: '${DOMAINNAME}'
+        environment:
+            - DUCKDNS_TOKEN=${DUCKDNS_TOKEN}
+        networks:
+            - web
+        ports:
+            - '80:80'
+            - '443:443'
+            - '8080:8080'
+        volumes:
+            - '/var/run/docker.sock:/var/run/docker.sock:ro'
+            - '${CONFIG_PATH}/Traefik:/etc/traefik'
+            - '${CONFIG_PATH}/Traefik/shared:/shared'
+    nextcloud:
+        container_name: nextcloud
+        restart: unless-stopped
+        image: nextcloud:latest
+        links:
+            - mariadb
+            - redis
+        volumes:
+            - '${NEXTCLOUD_DATA_PATH}:/var/www/html'
+        environment:
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
+            - REDIS_HOST=redis
+        networks:
+            - web
+        labels:
+            - "traefik.enable=true"
+            - "traefik.backend=nextcloud"
+            - "traefik.frontend.rule=Host:${DOMAINNAME}"
+            - "traefik.docker.network=web"
+            - "traefik.port=80"
+            - "traefik.frontend.redirect.permanent=true"
+            - "traefik.frontend.redirect.regex=https://(.*)/.well-known/(card|cal)dav"
+            - "traefik.frontend.redirect.replacement=https://$$1/remote.php/dav/"
+            - "traefik.frontend.headers.customResponseHeaders=Strict-Transport-Security:15552000"
+
+    redis:
+      image: arm32v7/redis:latest
+      hostname: redis
+      container_name: "redis"
+      restart: unless-stopped
+      networks: 
+        - web
+
+    mariadb:
+       image: jsurf/rpi-mariadb:latest
+       container_name: "mariadb"
+       hostname: mariadb
+       volumes:
+            - ${DATA_PATH}/mysql:/var/lib/mysql
+       networks: 
+            - web
+       ports:
+         - target: 3306
+           published: 3306
+           protocol: tcp
+           mode: host
+       restart: unless-stopped
+       environment:
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+            - MYSQL_DATABASE=${MYSQL_DATABASE}
+            - MYSQL_USER=${MYSQL_USER}
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
+
+    calibre-web:
+        image: linuxserver/calibre-web:latest
+        container_name: calibre-web
+        entrypoint:
+            - /init
+        environment:
+            - TZ=${TZ}
+            - PUID=${PUID}
+            - PGID=${PGID}
+        networks:
+            - web
+        ports:
+            - 8083:8083
+        labels:
+            - "traefik.enable=true"
+            - "traefik.backend=calibre-web"
+            - "traefik.frontend.rule=Host:books.${DOMAINNAME}"
+            - "traefik.docker.network=web"
+            - "traefik.port=8083"
+            - "traefik.frontend.headers.SSLRedirect=true"
+            - "traefik.frontend.headers.STSSeconds=315360000"
+            - "traefik.frontend.headers.browserXSSFilter=true"
+            - "traefik.frontend.headers.contentTypeNosniff=true"
+            - "traefik.frontend.headers.forceSTSHeader=true"
+            - "traefik.frontend.headers.SSLHost=${DOMAINNAME}"
+            - "traefik.frontend.headers.STSIncludeSubdomains=true"
+            - "traefik.frontend.headers.STSPreload=true"
+            - "traefik.frontend.headers.frameDeny=true"            
+        restart: unless-stopped
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - ${CONFIG_PATH}/Calibre-Web:/config:rw
+            - ${MEDIA_PATH}/Books:/books:rw
+
+networks:
+    web:
+        name: web
