@@ -1,34 +1,50 @@
 # docker-compose-omv5-armhf
 A set of docker-compose files to quickly and easily set up docker containers on an ARMHF device. 
-This project can configure 3 different stacks : the cloud stack, web-books stack and content-fetcher stack.
+This project can configure 5 different stacks of docker images, organized thematically.
 
 
- The cloud stack will deploy the following images :
+**Web stack**
+
+ This stack will install allow you to expose the others stacks services on the web. This stack contains :
  
  - [DuckDNS](https://github.com/linuxserver/docker-duckdns)
  - [Traefik  1.7+ ](https://github.com/containous/traefik)
+
+
+**Cloud stack**
+
+ This stack will install the nextcloud cloud suite for ARM devices. This stacks contains : 
+
  - [NextCloud](https://github.com/nextcloud/docker)
  - [Redis](https://github.com/redis)
  - [MariaDB](https://github.com/JSurf/docker-rpi-mariadb)
- - [Calibre-Web](https://github.com/linuxserver/docker-calibre-web)
- - [Komga](https://github.com/gotson/komga)
 
 
- The web-books stack is a variant of the cloud stack focused on ebooks, comics, graphic novels and manga hosting :
+**Book stack**
+
+ This stack will install an ebook and a comics/manga/graphic-novel managment and reading portal. This stacks contains :
  
- - [DuckDNS](https://github.com/linuxserver/docker-duckdns)
- - [Traefik  1.7+ ](https://github.com/containous/traefik)
  - [Calibre-Web](https://github.com/linuxserver/docker-calibre-web)
  - [Komga](https://github.com/gotson/komga)
 
 
-The content-fetcher stack will deploy the following images : 
+**Content fetcher stack**
+
+This stack will install an automatic movie, tv-shows and music content fetcher, using bittorrent protocol. This stacks contains : 
 
 - [Transmission + Openvpn](https://github.com/haugene/docker-transmission-openvpn)
 - [Jackett](https://github.com/linuxserver/docker-jackett)
 - [Radarr](https://github.com/linuxserver/docker-radarr)
 - [Sonarr](https://github.com/linuxserver/docker-sonarr)
 - [Lidarr](https://github.com/linuxserver/docker-lidarr)
+
+
+**Backup stack**
+
+This stack will install an incremental backup solution. This stacks contains : 
+
+- [Duplicati](https://github.com/duplicati/duplicati)
+
 
 # Prerequisites
 

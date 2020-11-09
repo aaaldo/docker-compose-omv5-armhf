@@ -1,0 +1,38 @@
+version: '3.6'
+services:
+    duckdns:
+        image: linuxserver/duckdns
+        container_name: duckdns
+        environment:
+            - 'PUID=${PUID}'
+            - 'PGID=${PGID}'
+            - 'TZ=${TZ}'
+            - 'SUBDOMAINS=${DOMAINNAME}'
+            - 'TOKEN=${DUCKDNS_TOKEN}'
+            - LOG_FILE=true
+        network_mode: host
+        volumes:
+            - '${CONFIG_PATH}/DuckDns:/config'
+        restart: unless-stopped
+    traefik:
+        hostname: traefik
+        image: traefik:1.7.24
+        container_name: traefik
+        restart: always
+        domainname: '${DOMAINNAME}'
+        environment:
+            - DUCKDNS_TOKEN=${DUCKDNS_TOKEN}
+        networks:
+            - web
+        ports:
+            - '80:80'
+            - '443:443'
+            - '8080:8080'
+        volumes:
+            - '/var/run/docker.sock:/var/run/docker.sock:ro'
+            - '${CONFIG_PATH}/Traefik:/etc/traefik'
+            - '${CONFIG_PATH}/Traefik/shared:/shared'
+
+networks:
+    web:
+        name: web

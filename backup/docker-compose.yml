@@ -1,0 +1,16 @@
+version: '3.6'
+services:
+    duplicati:
+        image: linuxserver/duplicati
+        container_name: duplicati
+        volumes:
+            - ${BACKUP_PATH}:/backups
+            - ${SOURCE_PATH}:/source
+            - ${CONFIG_PATH}/Duplicati:/config:rw
+        ports:
+            - 8200:8200
+        environment:
+            - TZ=${TZ}
+            - PUID=${PUID}
+            - PGID=${PGID}
+        restart: unless-stopped
