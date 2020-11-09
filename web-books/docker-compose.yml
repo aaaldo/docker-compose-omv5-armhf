@@ -1,0 +1,104 @@
+version: '3.6'
+services:
+    duckdns:
+        image: linuxserver/duckdns
+        container_name: duckdns
+        environment:
+            - 'PUID=${PUID}'
+            - 'PGID=${PGID}'
+            - 'TZ=${TZ}'
+            - 'SUBDOMAINS=${DOMAINNAME}'
+            - 'TOKEN=${DUCKDNS_TOKEN}'
+            - LOG_FILE=true
+        network_mode: host
+        volumes:
+            - '${CONFIG_PATH}/DuckDns:/config'
+        restart: unless-stopped
+    traefik:
+        hostname: traefik
+        image: traefik:1.7.24
+        container_name: traefik
+        restart: always
+        domainname: '${DOMAINNAME}'
+        environment:
+            - DUCKDNS_TOKEN=${DUCKDNS_TOKEN}
+        networks:
+            - web
+        ports:
+            - '80:80'
+            - '443:443'
+            - '8080:8080'
+        volumes:
+            - '/var/run/docker.sock:/var/run/docker.sock:ro'
+            - '${CONFIG_PATH}/Traefik:/etc/traefik'
+            - '${CONFIG_PATH}/Traefik/shared:/shared'
+    komga:
+        image: gotson/komga
+        container_name: komga
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - ${CONFIG_PATH}/Gotson:/config:rw
+            - ${MEDIA_PATH}/Comics:/comics:rw
+            - ${MEDIA_PATH}/Manga:/manga:rw
+            - ${MEDIA_PATH}/Bedes:/bedes:rw
+        networks:
+            - web
+        ports:
+            - 8084:8080
+        environment:
+            - TZ=${TZ}
+            - PUID=${PUID}
+            - PGID=${PGID}
+        labels:
+            - "traefik.enable=true"
+            - "traefik.backend=komga"
+            - "traefik.frontend.rule=Host:comics.${DOMAINNAME}"
+            - "traefik.docker.network=web"
+            - "traefik.port=8084"
+            - "traefik.frontend.headers.SSLRedirect=true"
+            - "traefik.frontend.headers.STSSeconds=315360000"
+            - "traefik.frontend.headers.browserXSSFilter=true"
+            - "traefik.frontend.headers.contentTypeNosniff=true"
+            - "traefik.frontend.headers.forceSTSHeader=true"
+            - "traefik.frontend.headers.SSLHost=${DOMAINNAME}"
+            - "traefik.frontend.headers.STSIncludeSubdomains=true"
+            - "traefik.frontend.headers.STSPreload=true"
+            - "traefik.frontend.headers.frameDeny=true"            
+        restart: unless-stopped
+    calibre-web:
+        image: linuxserver/calibre-web:latest
+        container_name: calibre-web
+        entrypoint:
+            - /init
+        environment:
+            - TZ=${TZ}
+            - PUID=${PUID}
+            - PGID=${PGID}
+        networks:
+            - web
+        ports:
+            - 8083:8083
+        labels:
+            - "traefik.enable=true"
+            - "traefik.backend=calibre-web"
+            - "traefik.frontend.rule=Host:books.${DOMAINNAME}"
+            - "traefik.docker.network=web"
+            - "traefik.port=8083"
+            - "traefik.frontend.headers.SSLRedirect=true"
+            - "traefik.frontend.headers.STSSeconds=315360000"
+            - "traefik.frontend.headers.browserXSSFilter=true"
+            - "traefik.frontend.headers.contentTypeNosniff=true"
+            - "traefik.frontend.headers.forceSTSHeader=true"
+            - "traefik.frontend.headers.SSLHost=${DOMAINNAME}"
+            - "traefik.frontend.headers.STSIncludeSubdomains=true"
+            - "traefik.frontend.headers.STSPreload=true"
+            - "traefik.frontend.headers.frameDeny=true"            
+        restart: unless-stopped
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - ${CONFIG_PATH}/Calibre-Web:/config:rw
+            - ${MEDIA_PATH}/Books:/books:rw
+
+networks:
+    web:
+        name: web

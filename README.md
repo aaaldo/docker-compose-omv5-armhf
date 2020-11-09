@@ -1,6 +1,6 @@
 # docker-compose-omv5-armhf
 A set of docker-compose files to quickly and easily set up docker containers on an ARMHF device. 
-This project will configure 2 stacks, the cloud stack and content-fetcher stack.
+This project can configure 3 different stacks : the cloud stack, web-books stack and content-fetcher stack.
 
 
  The cloud stack will deploy the following images :
@@ -11,6 +11,16 @@ This project will configure 2 stacks, the cloud stack and content-fetcher stack.
  - [Redis](https://github.com/redis)
  - [MariaDB](https://github.com/JSurf/docker-rpi-mariadb)
  - [Calibre-Web](https://github.com/linuxserver/docker-calibre-web)
+ - [Komga](https://github.com/gotson/komga)
+
+
+ The web-books stack is a variant of the cloud stack focused on ebooks, comics, graphic novels and manga hosting :
+ 
+ - [DuckDNS](https://github.com/linuxserver/docker-duckdns)
+ - [Traefik  1.7+ ](https://github.com/containous/traefik)
+ - [Calibre-Web](https://github.com/linuxserver/docker-calibre-web)
+ - [Komga](https://github.com/gotson/komga)
+
 
 The content-fetcher stack will deploy the following images : 
 
