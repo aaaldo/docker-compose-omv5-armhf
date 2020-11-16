@@ -14,24 +14,48 @@ services:
         volumes:
             - '${CONFIG_PATH}/DuckDns:/config'
         restart: unless-stopped
-    traefik:
-        hostname: traefik
-        image: traefik:1.7.24
-        container_name: traefik
-        restart: always
-        domainname: '${DOMAINNAME}'
-        environment:
-            - DUCKDNS_TOKEN=${DUCKDNS_TOKEN}
-        networks:
+
+    nginx-proxy-manager:
+      image: 'jc21/nginx-proxy-manager:latest'
+      container_name: "nginx-proxy-manager"
+      restart: unless-stopped
+      ports:
+          - '80:80' #HTTP Traffic
+          - '81:81' #Dashboard Port
+          - '443:443' #HTTPS Traffic
+      environment:
+          - DISABLE_IPV6=true
+      volumes:
+          - ${CONFIG_PATH}/NginxProxyManager/config.json:/app/config/production.json
+          - ${DATA_PATH}/letsencrypt:/etc/letsencrypt
+          - ${DATA_PATH}/nginx-proxy-manager:/data
+      links:
+          - mariadb
+      networks:
             - web
-        ports:
-            - '80:80'
-            - '443:443'
-            - '8080:8080'
-        volumes:
-            - '/var/run/docker.sock:/var/run/docker.sock:ro'
-            - '${CONFIG_PATH}/Traefik:/etc/traefik'
-            - '${CONFIG_PATH}/Traefik/shared:/shared'
+
+    mariadb:
+       image: jsurf/rpi-mariadb:latest
+       container_name: mariadb
+       hostname: mariadb
+       volumes:
+            - ${DATA_PATH}/mysql:/var/lib/mysql
+       networks: 
+            - web
+       ports:
+         - target: 3306
+           published: 3306
+           protocol: tcp
+           mode: host
+       restart: unless-stopped
+       environment:
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+            - MYSQL_DATABASE=${MYSQL_DATABASE}
+            - MYSQL_USER=${MYSQL_USER}
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
 
 networks:
     web:

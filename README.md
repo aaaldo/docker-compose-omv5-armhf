@@ -8,7 +8,7 @@ This project can configure 5 different stacks of docker images, organized themat
  This stack will install allow you to expose the others stacks services on the web. This stack contains :
  
  - [DuckDNS](https://github.com/linuxserver/docker-duckdns)
- - [Traefik  1.7+ ](https://github.com/containous/traefik)
+ - [Nginx Proxy Manager](https://github.com/jc21/nginx-proxy-manager)
 
 
 **Cloud stack**
@@ -61,11 +61,12 @@ This stack will install an incremental backup solution. This stacks contains :
 1. Using your Terminal of choice (Terminal, Putty, etc), log into your server with an admin priviledged account : ```ssh <your server address>```
 2. Install git : ```sudo apt-get install git```
 3. Fetch this repository content : ```git clone https://github.com/aaaldo/docker-compose-omv5-armhf.git```
-4. Go to the ```docker-compose-omv5-armhf/cloud``` directory
+4. Pick a stack to deploy and enter its directory : ```cd <name of the stack>```	
 5. Rename and open the .env file : ```mv dotenv .env && nano .env``` and edit its content with your informations
-6. Deploy the stack : ```docker-compose -f docker-compose.yml up -d```
-7. Repeat the step 4, 5 and 6 for the ```docker-compose-omv5-armhf/content-fetcher``` directory
-8. You can then configure each containers individually. I'd suggest you those youtube channels for more informations and tutorials :
+6. Check the local ```README.md``` for additionnal setup required for the stack
+7. Deploy the stack : ```docker-compose -f docker-compose.yml up -d```
+
+You can then configure each containers individually. I'd suggest you those youtube channels for more informations and tutorials :
    - [DB Tech](https://www.youtube.com/channel/UCVy16RS5eEDh8anP8j94G2A)
    - [Techno Dad Life](https://www.youtube.com/channel/UCX2Vhc0LIzSS9aMzhGFZ7PA)
   

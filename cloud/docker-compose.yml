@@ -16,16 +16,6 @@ services:
             - REDIS_HOST=redis
         networks:
             - web
-        labels:
-            - "traefik.enable=true"
-            - "traefik.backend=nextcloud"
-            - "traefik.frontend.rule=Host:${DOMAINNAME}"
-            - "traefik.docker.network=web"
-            - "traefik.port=80"
-            - "traefik.frontend.redirect.permanent=true"
-            - "traefik.frontend.redirect.regex=https://(.*)/.well-known/(card|cal)dav"
-            - "traefik.frontend.redirect.replacement=https://$$1/remote.php/dav/"
-            - "traefik.frontend.headers.customResponseHeaders=Strict-Transport-Security:15552000"
 
     redis:
       image: arm32v7/redis:latest
