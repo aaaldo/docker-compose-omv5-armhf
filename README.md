@@ -39,10 +39,11 @@ This stack will install an automatic movie, tv-shows and music content fetcher, 
 - [Lidarr](https://github.com/linuxserver/docker-lidarr)
 
 
-**Backup stack**
+**Maintenance stack**
 
-This stack will install an incremental backup solution. This stacks contains : 
+This stack will install some maintenance tools, including an incremental backup solution and a docker container automatic updater. This stacks contains : 
 
+- [Watchtower](https://github.com/containrrr/watchtower/)
 - [Duplicati](https://github.com/duplicati/duplicati)
 
 
