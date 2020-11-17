@@ -25,6 +25,8 @@ services:
           - '443:443' #HTTPS Traffic
       environment:
           - DISABLE_IPV6=true
+          - 'PUID=${PUID}'
+          - 'PGID=${PGID}'
       volumes:
           - ${CONFIG_PATH}/NginxProxyManager/config.json:/app/config/production.json
           - ${DATA_PATH}/letsencrypt:/etc/letsencrypt
@@ -43,10 +45,7 @@ services:
        networks: 
             - web
        ports:
-         - target: 3306
-           published: 3306
-           protocol: tcp
-           mode: host
+            - 3306:3306    
        restart: unless-stopped
        environment:
             - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
