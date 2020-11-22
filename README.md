@@ -47,6 +47,13 @@ This stack will install some maintenance tools, including an incremental backup 
 - [Duplicati](https://github.com/duplicati/duplicati)
 
 
+**Git stack**
+
+This stack will install a git forge. This stacks contains : 
+
+- [Gitea](https://gitea.io/en-us/)
+
+
 # Prerequisites
 
 - an ARMHF device (tested on an Odroid N2 4Gb)

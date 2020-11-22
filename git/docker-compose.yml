@@ -1,0 +1,16 @@
+version: '3.6'
+services:
+    gitea:
+        container_name: gitea
+        restart: unless-stopped
+        image: kunde21/gitea-arm:latest
+        volumes:
+            - '${DATA_PATH}/gitea:/data'
+        ports:
+            - 3000:3000
+            - 022:022
+        environment:
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
+        network_mode: host
