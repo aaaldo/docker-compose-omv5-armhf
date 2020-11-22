@@ -13,11 +13,13 @@ services:
             - TZ=${TZ}
             - PUID=${PUID}
             - PGID=${PGID}
+        network_mode: host
         restart: unless-stopped
     watchtower:
         image: v2tec/watchtower:armhf-latest
         container_name: watchtower
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
+        network_mode: host
         command: --interval 43200
         restart: unless-stopped
