@@ -1,6 +1,6 @@
 # docker-compose-omv5-armhf
 A set of docker-compose files to quickly and easily set up docker containers on an ARMHF device. 
-This project can configure 5 different stacks of docker images, organized thematically.
+This project can configure several stacks of docker images, organized thematically.
 
 
 **Web stack**
@@ -54,6 +54,14 @@ This stack will install a git forge. This stacks contains :
 - [Gitea](https://gitea.io/en-us/)
 
 
+**DNS stack**
+
+This stack will install a DSN level adblock/malware filter. This stacks contains : 
+
+- [Adguard Home](https://github.com/AdguardTeam/AdGuardHome)
+
+
+
 # Prerequisites
 
 - an ARMHF device (tested on an Odroid N2 4Gb)
@@ -62,7 +70,7 @@ This stack will install a git forge. This stacks contains :
 - Docker installed and running (tested on 5:19.03.8~3-0~debian-buster)
 - **OMV admin panel configured to a different port than 80**
 - SSH access
-- Basic knowledge of a ssh tunnel and some basic unix commands
+- Basic handling of a ssh tunnel and some simple unix commands
 
 # Installation guide
 
@@ -72,7 +80,7 @@ This stack will install a git forge. This stacks contains :
 4. Pick a stack to deploy and enter its directory : ```cd <name of the stack>```	
 5. Rename and open the .env file : ```mv dotenv .env && nano .env``` and edit its content with your informations
 6. Check the local ```README.md``` for additionnal setup required for the stack
-7. Deploy the stack : ```docker-compose -f docker-compose.yml up -d```
+7. Deploy the stack : ```sudo docker-compose -f docker-compose.yml up -d```
 
 You can then configure each containers individually. I'd suggest you those youtube channels for more informations and tutorials :
    - [DB Tech](https://www.youtube.com/channel/UCVy16RS5eEDh8anP8j94G2A)
