@@ -7,8 +7,8 @@ services:
         volumes:
             - '${DATA_PATH}/gitea:/data'
         ports:
-            - 3000:3000
-            - 022:022
+            - 3000:3001
+            - 022:3002
         environment:
             - PUID=${PUID}
             - PGID=${PGID}
