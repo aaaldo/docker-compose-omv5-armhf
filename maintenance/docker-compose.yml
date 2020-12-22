@@ -23,3 +23,51 @@ services:
         network_mode: host
         command: --interval 43200
         restart: unless-stopped
+    node-exporter:
+      image: quay.io/prometheus/node-exporter:latest
+      container_name: node-exporter
+      ports:
+        - 9100:9100
+      environment:
+          - TZ=${TZ}
+          - PUID=${PUID}
+          - PGID=${PGID}
+      volumes:
+        - /proc:/host/proc:ro
+        - /sys:/host/sys:ro
+        - /:/host:ro
+      network_mode: host
+      restart: unless-stopped
+      command:
+        - '--path.rootfs=/host'
+    prometheus:
+      image: prom/prometheus:latest
+      container_name: prometheus
+      ports:
+        - 9090:9090
+      environment:
+          - TZ=${TZ}
+          - PUID=${PUID}
+          - PGID=${PGID}
+      command:
+        - '--config.file=/etc/prometheus/prometheus.yml'
+        - '--storage.tsdb.path=/prometheus'
+        - '--web.console.libraries=/etc/prometheus/console_libraries'
+        - '--web.console.templates=/etc/prometheus/consoles'
+        - '--storage.tsdb.retention.time=200h'
+        - '--web.enable-lifecycle'
+      volumes:
+        - ${CONFIG_PATH}/Prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      network_mode: host
+      restart: unless-stopped
+    grafana:
+      image: grafana/grafana:latest
+      container_name: grafana
+      ports:
+        - 3000:3000
+      environment:
+          - TZ=${TZ}
+          - PUID=${PUID}
+          - PGID=${PGID}
+      network_mode: host
+      restart: unless-stopped
