@@ -22,4 +22,4 @@ Please carefully follow those steps to install the docker without issues :
 
 9. Deploy the stack : ```sudo docker-compose -f docker-compose.yml up -d```
 
-10. Configure your local machine or your router to use ```<your server address>``` as your main DNS resolver.
+10. Configure your local machine or your router to use ```<your server address>`` as your main DNS resolver.
