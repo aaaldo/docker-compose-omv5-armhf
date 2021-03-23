@@ -48,7 +48,8 @@ services:
       - TZ=${TZ}
     volumes:
       - ${CONFIG_PATH}:/config
-    network_mode: host
+    networks:
+      - stack-net 
     dns:
         - 1.1.1.1
         - 8.8.8.8
@@ -69,7 +70,8 @@ services:
       - ${MEDIA_PATH}/TV/:/tv
       - ${DATA_PATH}/complete:/downloads
       - ${DATA_PATH}:/data
-    network_mode: host
+    networks:
+      - stack-net
     dns:
         - 1.1.1.1
         - 8.8.8.8
@@ -90,7 +92,8 @@ services:
       - ${MEDIA_PATH}/Music/:/music
       - ${DATA_PATH}/complete:/downloads
       - ${DATA_PATH}:/data
-    network_mode: host
+    networks:
+      - stack-net
     dns:
         - 1.1.1.1
         - 8.8.8.8
@@ -111,7 +114,8 @@ services:
       - ${MEDIA_PATH}/Movies/:/movies
       - ${DATA_PATH}/complete:/downloads
       - ${DATA_PATH}:/data
-    network_mode: host
+    networks:
+      - stack-net
     dns:
         - 1.1.1.1
         - 8.8.8.8
@@ -121,3 +125,4 @@ services:
 
 networks:
   transmission-net:
+  stack-net:

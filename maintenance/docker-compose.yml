@@ -13,14 +13,16 @@ services:
             - TZ=${TZ}
             - PUID=${PUID}
             - PGID=${PGID}
-        network_mode: host
+        networks:
+          - stack-net
         restart: unless-stopped
     watchtower:
         image: v2tec/watchtower:armhf-latest
         container_name: watchtower
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
-        network_mode: host
+        networks:
+          - stack-net
         command: --interval 43200
         restart: unless-stopped
     node-exporter:
@@ -36,7 +38,8 @@ services:
         - /proc:/host/proc:ro
         - /sys:/host/sys:ro
         - /:/host:ro
-      network_mode: host
+      networks:
+        - stack-net
       restart: unless-stopped
       command:
         - '--path.rootfs=/host'
@@ -58,7 +61,8 @@ services:
         - '--web.enable-lifecycle'
       volumes:
         - ${CONFIG_PATH}/Prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      network_mode: host
+      networks:
+          - stack-net
       restart: unless-stopped
     grafana:
       image: grafana/grafana:latest
@@ -69,5 +73,9 @@ services:
           - TZ=${TZ}
           - PUID=${PUID}
           - PGID=${PGID}
-      network_mode: host
+      networks:
+        - stack-net
       restart: unless-stopped
+
+networks:
+  stack-net:

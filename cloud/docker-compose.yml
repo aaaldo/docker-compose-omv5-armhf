@@ -15,7 +15,7 @@ services:
             - TZ=${TZ}
             - REDIS_HOST=redis
         networks:
-            - web
+            - cloud
 
     redis:
       image: arm32v7/redis:latest
@@ -23,7 +23,7 @@ services:
       container_name: "redis"
       restart: unless-stopped
       networks: 
-        - web
+        - cloud
 
     mariadb:
        image: jsurf/rpi-mariadb:latest
@@ -32,7 +32,7 @@ services:
        volumes:
             - ${DATA_PATH}/mysql:/var/lib/mysql
        networks: 
-            - web
+            - cloud
        ports:
          - target: 3306
            published: 3306
@@ -49,5 +49,5 @@ services:
             - TZ=${TZ}
 
 networks:
-    web:
-        name: web
+    cloud:
+        name: cloud

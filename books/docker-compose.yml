@@ -15,7 +15,8 @@ services:
             - TZ=${TZ}
             - PUID=${PUID}
             - PGID=${PGID}
-        network_mode: host
+        networks:
+          - stack-net
         restart: unless-stopped
     calibre-web:
         image: linuxserver/calibre-web:latest
@@ -29,8 +30,12 @@ services:
         ports:
             - 8083:8083
         restart: unless-stopped
-        network_mode: host
+        networks:
+          - stack-net
         volumes:
             - /etc/localtime:/etc/localtime:ro
             - ${CONFIG_PATH}/Calibre-Web:/config:rw
             - ${MEDIA_PATH}/Books:/books:rw
+
+networks:
+  stack-net:

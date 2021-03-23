@@ -13,4 +13,8 @@ services:
             - PUID=${PUID}
             - PGID=${PGID}
             - TZ=${TZ}
-        network_mode: host
+        networks:
+          - stack-net
+
+networks:
+  stack-net:
