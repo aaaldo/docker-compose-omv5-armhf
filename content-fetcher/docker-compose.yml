@@ -39,23 +39,19 @@ services:
             - LOCAL_NETWORK=${LOCAL_NETWORK}
             - CREATE_TUN_DEVICE=true
 
-  jackett:
-    image: linuxserver/jackett:latest
-    container_name: jackett
+  prowlarr:
+    image: ghcr.io/linuxserver/prowlarr:develop
+    container_name: prowlarr
     environment:
       - PUID=${PUID}
-      - PGID=${PGID}
+      - PGID=${PGID}0
       - TZ=${TZ}
     volumes:
-      - ${CONFIG_PATH}:/config
-    networks:
-      - stack-net 
-    dns:
-        - 1.1.1.1
-        - 8.8.8.8
+      - ${CONFIG_PATH}/Prowlarr:/config
     ports:
-      - 9117:9117
-    restart: unless-stopped    
+      - 9696:9696
+    restart: unless-stopped
+
     
   sonarr:
     image: linuxserver/sonarr:latest
