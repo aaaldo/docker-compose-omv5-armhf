@@ -25,6 +25,16 @@ services:
           - stack-net
         command: --interval 43200
         restart: unless-stopped
+    uptime-kuma:
+      image: louislam/uptime-kuma:latest
+      container_name: uptime-kuma
+      ports:
+        - 3001:3001
+      volumes:
+        - ${CONFIG_PATH}/UptimeKuma:/app/data:rw
+      networks:
+          - stack-net
+      restart: unless-stopped
     node-exporter:
       image: quay.io/prometheus/node-exporter:latest
       container_name: node-exporter
