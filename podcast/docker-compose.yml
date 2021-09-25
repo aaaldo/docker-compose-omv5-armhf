@@ -1,0 +1,61 @@
+version: '3.4'
+
+x-app-defaults: &app-defaults
+  restart: always
+  environment: &app-env
+    URL_HOST: ${URL_HOST}
+    DATABASE_URL: postgres://podify:${DATABASE_PASSWORD}@db/podify
+    REDIS_URL: redis://redis
+    SECRET_KEY_BASE: ${DATABASE_SECRET}
+    RAILS_LOG_TO_STDOUT: "yes"
+    STORAGE_DIR: /storage
+    INITIAL_USER_EMAIL: ${INITIAL_USER_EMAIL}
+    INITIAL_USER_PASSWORD: ${INITIAL_USER_PASSWORD}
+    ENABLE_SIGNUP: "no"
+
+  volumes:
+    - ${CONFIG_PATH}/podify/storage:/storage
+
+  depends_on:
+    - db
+    - redis
+
+services:
+  web:
+    <<: *app-defaults
+    image: maxhollmann/podify:latest
+    command: start-server
+    ports:
+      - 3000:3000
+    networks:
+      - podcast-net
+    environment:
+      <<: *app-env
+
+  worker:
+    <<: *app-defaults
+    image: maxhollmann/podify:latest
+    command: start-server
+    networks:
+      - podcast-net
+    environment:
+      <<: *app-env
+
+  db:
+    image: postgres:12.3
+    restart: always
+    environment:
+      POSTGRES_USER: podify
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ${CONFIG_PATH}/podify/pgdata:/var/lib/postgresql/data/pgdata
+    networks:
+      - podcast-net
+
+  redis:
+    image: redis:6
+    restart: always
+  
+networks:
+  podcast-net:

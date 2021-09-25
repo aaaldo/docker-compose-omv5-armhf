@@ -1,0 +1,9 @@
+PUID= <id -u -youruser->
+PGID= <id -g -youruser->
+TZ= <your timezone>
+URL_HOST= <url pointing to this service>
+DATABASE_PASSWORD= <strong password for database>
+DATABASE_SECRET= <this is utilized to encrypt and sign sessions. You can generate a new one using "docker run --rm maxhollmann/podify rails secret">
+INITIAL_USER_EMAIL= <default admin email>
+INITIAL_USER_PASSWORD= <default admin password>
+CONFIG_PATH= <path to the folder housing config files for all containers>
