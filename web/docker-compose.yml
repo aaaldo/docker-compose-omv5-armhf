@@ -29,8 +29,8 @@ services:
           - 'PGID=${PGID}'
       volumes:
           - ${CONFIG_PATH}/NginxProxyManager/config.json:/app/config/production.json
-          - ${DATA_PATH}/letsencrypt:/etc/letsencrypt
-          - ${DATA_PATH}/nginx-proxy-manager:/data
+          - ${CONFIG_PATH}/letsencrypt:/etc/letsencrypt
+          - ${CONFIG_PATH}/nginx-proxy-manager:/data
       links:
           - mariadb
       networks:
@@ -41,7 +41,7 @@ services:
        container_name: mariadb
        hostname: mariadb
        volumes:
-            - ${DATA_PATH}/mysql:/var/lib/mysql
+            - ${CONFIG_PATH}/mysql:/var/lib/mysql
        networks: 
             - web
        ports:

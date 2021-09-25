@@ -38,6 +38,7 @@ services:
             - ENABLE_UFW=false
             - LOCAL_NETWORK=${LOCAL_NETWORK}
             - CREATE_TUN_DEVICE=true
+            - TRANSMISSION_HOME=/config/transmission-home
 
   prowlarr:
     image: ghcr.io/linuxserver/prowlarr:develop
