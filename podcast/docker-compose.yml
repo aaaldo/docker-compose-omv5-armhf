@@ -1,4 +1,5 @@
-version: '3.4'
+---
+version: "3.6"
 
 x-app-defaults: &app-defaults
   restart: always
@@ -24,6 +25,7 @@ services:
   web:
     <<: *app-defaults
     image: maxhollmann/podify:latest
+    container_name: podify-web
     command: start-server
     ports:
       - 3000:3000
@@ -31,18 +33,22 @@ services:
       - podcast-net
     environment:
       <<: *app-env
+    restart: unless-stopped
 
   worker:
     <<: *app-defaults
     image: maxhollmann/podify:latest
+    container_name: podify-worker
     command: start-server
     networks:
       - podcast-net
     environment:
       <<: *app-env
+    restart: unless-stopped
 
   db:
     image: postgres:12.3
+    container_name: podify-db
     restart: always
     environment:
       POSTGRES_USER: podify
@@ -52,10 +58,12 @@ services:
       - ${CONFIG_PATH}/podify/pgdata:/var/lib/postgresql/data/pgdata
     networks:
       - podcast-net
+    restart: unless-stopped
 
   redis:
     image: redis:6
-    restart: always
+    container_name: podify-cache
+    restart: unless-stopped
   
 networks:
   podcast-net:
