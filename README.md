@@ -64,6 +64,13 @@ This stack will install a DSN level adblock/malware filter. This stacks contains
 - [Adguard Home](https://github.com/AdguardTeam/AdGuardHome)
 
 
+**Podcast stack**
+
+This stack will install a custom podcast generator based on some youtube or video channels. This stacks contains : 
+
+- [Podsync](https://github.com/mxpv/podsync)
+
+
 
 # Prerequisites
 

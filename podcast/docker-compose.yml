@@ -1,69 +1,24 @@
 ---
 version: "3.6"
-
-x-app-defaults: &app-defaults
-  restart: always
-  environment: &app-env
-    URL_HOST: ${URL_HOST}
-    DATABASE_URL: postgres://podify:${DATABASE_PASSWORD}@db/podify
-    REDIS_URL: redis://redis
-    SECRET_KEY_BASE: ${DATABASE_SECRET}
-    RAILS_LOG_TO_STDOUT: "yes"
-    STORAGE_DIR: /storage
-    INITIAL_USER_EMAIL: ${INITIAL_USER_EMAIL}
-    INITIAL_USER_PASSWORD: ${INITIAL_USER_PASSWORD}
-    ENABLE_SIGNUP: "no"
-
-  volumes:
-    - ${CONFIG_PATH}/podify/storage:/storage
-
-  depends_on:
-    - db
-    - redis
-
 services:
-  web:
-    <<: *app-defaults
-    image: maxhollmann/podify:latest
-    container_name: podify-web
-    command: start-server
-    ports:
-      - 3000:3000
-    networks:
-      - podcast-net
-    environment:
-      <<: *app-env
-    restart: unless-stopped
 
-  worker:
-    <<: *app-defaults
-    image: maxhollmann/podify:latest
-    container_name: podify-worker
-    command: start-server
-    networks:
-      - podcast-net
-    environment:
-      <<: *app-env
-    restart: unless-stopped
-
-  db:
-    image: postgres:12.3
-    container_name: podify-db
-    restart: always
-    environment:
-      POSTGRES_USER: podify
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-      PGDATA: /var/lib/postgresql/data/pgdata
-    volumes:
-      - ${CONFIG_PATH}/podify/pgdata:/var/lib/postgresql/data/pgdata
-    networks:
-      - podcast-net
-    restart: unless-stopped
-
-  redis:
-    image: redis:6
-    container_name: podify-cache
-    restart: unless-stopped
-  
+  podsync:
+      image: tdeutsch/podsync:latest
+      container_name: podsync
+      restart: unless-stopped
+      networks:
+        - podcast-net
+      ports:
+        - 9191:9191
+      dns:
+        - 1.1.1.1
+        - 8.8.8.8
+      volumes:
+        - ${CONFIG_PATH}/podsync/config.toml:/app/config.toml
+        - ${DATA_PATH}/podsync:/data
+      environment:
+            - PGID=${PGID}
+            - PUID=${PUID}
+            - TZ=${TZ}
 networks:
   podcast-net:
