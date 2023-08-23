@@ -71,6 +71,13 @@ This stack will install a custom podcast generator based on some youtube or vide
 - [Podsync](https://github.com/mxpv/podsync)
 
 
+**Jellyfin stack**
+
+This stack will install a Jellyfin server to manage and stream medias. This stacks contains : 
+
+- [Jellyfin](https://github.com/jellyfin/jellyfin/)
+
+
 
 # Prerequisites
 
