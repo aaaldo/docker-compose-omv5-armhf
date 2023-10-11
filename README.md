@@ -78,6 +78,13 @@ This stack will install a Jellyfin server to manage and stream medias. This stac
 - [Jellyfin](https://github.com/jellyfin/jellyfin/)
 
 
+**Emby stack**
+
+This stack will install an Emby server to manage and stream medias. This stacks contains : 
+
+- [Emby](https://github.com/MediaBrowser)
+
+
 
 # Prerequisites
 
