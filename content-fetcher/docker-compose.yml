@@ -75,28 +75,6 @@ services:
     ports:
       - 8989:8989
     restart: unless-stopped
-  
-  lidarr:
-    image: linuxserver/lidarr:latest
-    container_name: lidarr
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-      - UMASK_SET=022
-    volumes:
-      - ${CONFIG_PATH}/Lidarr:/config
-      - ${MEDIA_PATH}/Music/:/music
-      - ${DATA_PATH}/complete:/downloads
-      - ${DATA_PATH}:/data
-    networks:
-      - stack-net
-    dns:
-        - 1.1.1.1
-        - 8.8.8.8
-    ports:
-      - 8686:8686
-    restart: unless-stopped
 
   radarr:
     image: linuxserver/radarr:latest
@@ -118,6 +96,26 @@ services:
         - 8.8.8.8
     ports:
       - 7878:7878
+    restart: unless-stopped
+    
+  bazarr:
+    image: linuxserver/bazarr:latest
+    container_name: bazarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${CONFIG_PATH}/Bazarr:/config
+      - ${MEDIA_PATH}/Movies/:/movies
+      - ${DATA_PATH}:/data
+    networks:
+      - stack-net
+    dns:
+        - 1.1.1.1
+        - 8.8.8.8
+    ports:
+      -  6767:6767
     restart: unless-stopped
 
 networks:

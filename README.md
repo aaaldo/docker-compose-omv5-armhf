@@ -30,13 +30,14 @@ This project can configure several stacks of docker images, organized thematical
 
 **Content fetcher stack**
 
-This stack will install an automatic movie, tv-shows and music content fetcher, using bittorrent protocol. This stacks contains : 
+This stack will install an automatic movie, tv-shows and music and subtitles content fetcher, using bittorrent protocol. This stacks contains : 
 
 - [Transmission + Openvpn](https://github.com/haugene/docker-transmission-openvpn)
 - [Jackett](https://github.com/linuxserver/docker-jackett)
 - [Radarr](https://github.com/linuxserver/docker-radarr)
 - [Sonarr](https://github.com/linuxserver/docker-sonarr)
 - [Lidarr](https://github.com/linuxserver/docker-lidarr)
+- [Bazarr](https://github.com/linuxserver/docker-bazarr)
 
 
 **Maintenance stack**
