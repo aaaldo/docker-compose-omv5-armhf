@@ -3,22 +3,6 @@ A set of docker-compose files to quickly and easily set up docker containers on 
 This project can configure several stacks of docker images, organized thematically.
 
 
-**Web stack**
-
- This stack will install allow you to expose the others stacks services on the web. This stack contains :
- 
- - [DuckDNS](https://github.com/linuxserver/docker-duckdns)
- - [Nginx Proxy Manager](https://github.com/jc21/nginx-proxy-manager)
-
-
-**Cloud stack**
-
- This stack will install the nextcloud cloud suite for ARM devices. This stacks contains : 
-
- - [NextCloud](https://github.com/nextcloud/docker)
- - [Redis](https://github.com/redis)
- - [MariaDB](https://github.com/JSurf/docker-rpi-mariadb)
-
 
 **Book stack**
 
@@ -30,46 +14,14 @@ This project can configure several stacks of docker images, organized thematical
 
 **Content fetcher stack**
 
-This stack will install an automatic movie, tv-shows and music and subtitles content fetcher, using bittorrent protocol. This stacks contains : 
+This stack will install an automatic movies, tv-shows and subtitles content fetcher, using bittorrent protocol. This stacks contains : 
 
 - [Transmission + Openvpn](https://github.com/haugene/docker-transmission-openvpn)
 - [Jackett](https://github.com/linuxserver/docker-jackett)
 - [Radarr](https://github.com/linuxserver/docker-radarr)
 - [Sonarr](https://github.com/linuxserver/docker-sonarr)
-- [Lidarr](https://github.com/linuxserver/docker-lidarr)
 - [Bazarr](https://github.com/linuxserver/docker-bazarr)
 
-
-**Maintenance stack**
-
-This stack will install some maintenance tools, including an incremental backup solution and a docker container automatic updater and a graphic dashboard. This stacks contains : 
-
-- [Watchtower](https://github.com/containrrr/watchtower/)
-- [Duplicati](https://github.com/duplicati/duplicati)
-- [Node-Exporter](https://github.com/prometheus/node_exporter)
-- [Prometheus](https://github.com/prometheus/prometheus)
-- [Grafana](https://github.com/grafana/)
-
-
-**Git stack**
-
-This stack will install a git forge. This stacks contains : 
-
-- [Gitea](https://gitea.io/en-us/)
-
-
-**DNS stack**
-
-This stack will install a DSN level adblock/malware filter. This stacks contains : 
-
-- [Adguard Home](https://github.com/AdguardTeam/AdGuardHome)
-
-
-**Podcast stack**
-
-This stack will install a custom podcast generator based on some youtube or video channels. This stacks contains : 
-
-- [Podsync](https://github.com/mxpv/podsync)
 
 
 **Jellyfin stack**
@@ -79,12 +31,22 @@ This stack will install a Jellyfin server to manage and stream medias. This stac
 - [Jellyfin](https://github.com/jellyfin/jellyfin/)
 
 
-**Emby stack**
+**Maintenance stack**
 
-This stack will install an Emby server to manage and stream medias. This stacks contains : 
+This stack will install some maintenance tools, including an incremental backup solution and a docker container automatic updater and a graphic dashboard. This stacks contains : 
 
-- [Emby](https://github.com/MediaBrowser)
+- [Watchtower](https://github.com/containrrr/watchtower/)
+- [Duplicati](https://github.com/duplicati/duplicati)
+- [Uptime Kuma](https://github.com/louislam/uptime-kuma)
 
+
+
+**Web stack**
+
+ This stack will install allow you to expose the others stacks services on the web. This stack contains :
+ 
+ - [DuckDNS](https://github.com/linuxserver/docker-duckdns)
+ - [Nginx Proxy Manager](https://github.com/jc21/nginx-proxy-manager)
 
 
 # Prerequisites

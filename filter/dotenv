@@ -1,4 +1,0 @@
-PUID=<id -u -youruser->
-PGID=<id -g -youruser->
-TZ=<your timezone>
-CONFIG_PATH=<path to the folder housing config files for all containers>
