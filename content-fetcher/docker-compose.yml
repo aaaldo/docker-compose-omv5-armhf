@@ -108,7 +108,7 @@ services:
     volumes:
       - ${CONFIG_PATH}/Bazarr:/config
       - ${MEDIA_PATH}/Movies/:/movies
-      - ${DATA_PATH}:/data
+      - ${MEDIA_PATH}/tv/:/tv
     networks:
       - stack-net
     dns:

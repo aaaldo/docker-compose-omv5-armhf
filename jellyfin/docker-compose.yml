@@ -16,7 +16,7 @@ services:
         - 1.1.1.1
         - 8.8.8.8
       volumes:
-        - ${CONFIG_PATH}:/config
+        - ${CONFIG_PATH}/Jellyfin:/config
         - ${TVSHOWS_PATH}:/data/tvshows
         - ${MOVIES_PATH}:/data/movies
       environment:
