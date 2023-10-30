@@ -45,7 +45,7 @@ services:
     container_name: prowlarr
     environment:
       - PUID=${PUID}
-      - PGID=${PGID}0
+      - PGID=${PGID}
       - TZ=${TZ}
     volumes:
       - ${CONFIG_PATH}/Prowlarr:/config
@@ -59,7 +59,7 @@ services:
     container_name: sonarr
     environment:
       - PUID=${PUID}
-      - PGID=${PGID}0
+      - PGID=${PGID}
       - TZ=${TZ}
       - UMASK_SET=022
     volumes:
