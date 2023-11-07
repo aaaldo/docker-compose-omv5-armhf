@@ -21,6 +21,7 @@ This stack will install an automatic movies, tv-shows and subtitles content fetc
 - [Radarr](https://github.com/linuxserver/docker-radarr)
 - [Sonarr](https://github.com/linuxserver/docker-sonarr)
 - [Bazarr](https://github.com/linuxserver/docker-bazarr)
+- [FlareSolverr](https://github.com/FlareSolverr/FlareSolverr)
 
 
 
