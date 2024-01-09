@@ -1,0 +1,23 @@
+---
+version: "3.6"
+services:
+  podsync:
+      image: tdeutsch/podsync:latest
+      container_name: podsync
+      restart: unless-stopped
+      networks:
+        - podcast-net
+      ports:
+        - 9191:9191
+      dns:
+        - 1.1.1.1
+        - 8.8.8.8
+      volumes:
+        - ${CONFIG_PATH}/Podsync/config.toml:/app/config.toml
+        - ${DATA_PATH}/Podsync:/data
+      environment:
+            - PGID=${PGID}
+            - PUID=${PUID}
+            - TZ=${TZ}
+networks:
+  podcast-net:

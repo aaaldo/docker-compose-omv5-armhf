@@ -32,6 +32,16 @@ This stack will install a Jellyfin server to manage and stream medias. This stac
 - [Jellyfin](https://github.com/jellyfin/jellyfin/)
 
 
+
+**Podcast stack**
+
+This stack will install a custom podcast generator based on some youtube or video channels. This stacks contains : 
+
+- [Podsync](https://github.com/mxpv/podsync)
+
+
+
+
 **Maintenance stack**
 
 This stack will install some maintenance tools, including an incremental backup solution and a docker container automatic updater and a graphic dashboard. This stacks contains : 
