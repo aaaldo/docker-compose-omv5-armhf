@@ -18,6 +18,7 @@ services:
       environment:
             - PGID=${PGID}
             - PUID=${PUID}
-            - TZ=${TZ}
+            - TZ=${TZ}            
+            
 networks:
   podcast-net:
