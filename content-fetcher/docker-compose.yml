@@ -34,6 +34,7 @@ services:
             - TRANSMISSION_DOWNLOAD_DIR=/data/complete
             - GLOBAL_APPLY_PERMISSIONS=false
             - TRANSMISSION_RATIO_LIMIT=2
+            - DISABLE_PORT_FORWARDER=false
             - TRANSMISSION_UMASK=022
             - ENABLE_UFW=false
             - LOCAL_NETWORK=${LOCAL_NETWORK}
@@ -108,7 +109,7 @@ services:
     volumes:
       - ${CONFIG_PATH}/Bazarr:/config
       - ${MEDIA_PATH}/Movies/:/movies
-      - ${MEDIA_PATH}/tv/:/tv
+      - ${MEDIA_PATH}/TV/:/tv
     networks:
       - stack-net
     dns:
