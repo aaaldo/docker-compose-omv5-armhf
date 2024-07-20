@@ -10,7 +10,7 @@ services:
             - ${MEDIA_PATH}/Manga:/manga:rw
             - ${MEDIA_PATH}/Bedes:/bedes:rw
         ports:
-            - 8080:8080
+            - 25600:25600
         environment:
             - TZ=${TZ}
             - PUID=${PUID}
