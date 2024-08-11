@@ -73,4 +73,4 @@ services:
 
 networks:
     web:
-        name: we-net
+        name: web-net
