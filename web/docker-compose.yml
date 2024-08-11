@@ -72,5 +72,4 @@ services:
               memory: 64M
 
 networks:
-    web:
-        name: web-net
+    web-net:
