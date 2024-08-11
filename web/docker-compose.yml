@@ -14,6 +14,11 @@ services:
         volumes:
             - '${CONFIG_PATH}/DuckDns:/config'
         restart: unless-stopped
+        deploy:
+          resources:
+            limits:
+              cpus: '0.001'
+              memory: 50M
 
     nginx-proxy-manager:
       image: 'jc21/nginx-proxy-manager:latest'
@@ -34,7 +39,12 @@ services:
       links:
           - mariadb
       networks:
-            - web
+            - web-net
+      deploy:
+          resources:
+            limits:
+              cpus: '0.01'
+              memory: 256M
 
     mariadb:
        image: jsurf/rpi-mariadb:latest
@@ -43,7 +53,7 @@ services:
        volumes:
             - ${CONFIG_PATH}/mysql:/var/lib/mysql
        networks: 
-            - web
+            - web-net
        ports:
             - 3306:3306    
        restart: unless-stopped
@@ -55,7 +65,12 @@ services:
             - PUID=${PUID}
             - PGID=${PGID}
             - TZ=${TZ}
+       deploy:
+          resources:
+            limits:
+              cpus: '0.01'
+              memory: 64M
 
 networks:
     web:
-        name: web
+        name: we-net

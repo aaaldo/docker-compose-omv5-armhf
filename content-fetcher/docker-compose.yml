@@ -40,6 +40,11 @@ services:
             - LOCAL_NETWORK=${LOCAL_NETWORK}
             - CREATE_TUN_DEVICE=true
             - TRANSMISSION_HOME=/config/transmission-home
+      deploy:
+          resources:
+            limits:
+              cpus: '0.01'
+              memory: 1024M
 
   prowlarr:
     image: ghcr.io/linuxserver/prowlarr:develop
@@ -52,7 +57,14 @@ services:
       - ${CONFIG_PATH}/Prowlarr:/config
     ports:
       - 9696:9696
+    networks:
+      - stack-net
     restart: unless-stopped
+    deploy:
+          resources:
+            limits:
+              cpus: '0.01'
+              memory: 256M
 
     
   sonarr:
@@ -76,6 +88,11 @@ services:
     ports:
       - 8989:8989
     restart: unless-stopped
+    deploy:
+          resources:
+            limits:
+              cpus: '0.01'
+              memory: 256M
 
   radarr:
     image: linuxserver/radarr:latest
@@ -98,6 +115,11 @@ services:
     ports:
       - 7878:7878
     restart: unless-stopped
+    deploy:
+          resources:
+            limits:
+              cpus: '0.01'
+              memory: 256M
     
   bazarr:
     image: linuxserver/bazarr:latest
@@ -118,6 +140,11 @@ services:
     ports:
       -  6767:6767
     restart: unless-stopped
+    deploy:
+          resources:
+            limits:
+              cpus: '0.01'
+              memory: 128M
     
     
   flaresolverr:
@@ -128,9 +155,16 @@ services:
       - LOG_HTML=false
       - CAPTCHA_SOLVER=none
       - TZ=${TZ}
+    networks:
+      - stack-net
     ports:
       -  8191:8191
-    restart: unless-stopped 
+    restart: unless-stopped
+    deploy:
+          resources:
+            limits:
+              cpus: '0.01'
+              memory: 32M
 
 networks:
   transmission-net:

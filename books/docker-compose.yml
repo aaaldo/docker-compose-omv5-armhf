@@ -16,8 +16,14 @@ services:
             - PUID=${PUID}
             - PGID=${PGID}
         networks:
-          - stack-net
+          - books-net
         restart: unless-stopped
+        deploy:
+          resources:
+            limits:
+              cpus: '0.01'
+              memory: 512M
+        
     calibre-web:
         image: linuxserver/calibre-web:latest
         container_name: calibre-web
@@ -31,11 +37,16 @@ services:
             - 8083:8083
         restart: unless-stopped
         networks:
-          - stack-net
+          - books-net
         volumes:
             - /etc/localtime:/etc/localtime:ro
             - ${CONFIG_PATH}/Calibre-Web:/config:rw
             - ${MEDIA_PATH}/Books:/books:rw
+        deploy:
+          resources:
+            limits:
+              cpus: '0.01'
+              memory: 512M
 
 networks:
-  stack-net:
+  books-net:

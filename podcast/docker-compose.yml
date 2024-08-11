@@ -18,7 +18,12 @@ services:
       environment:
             - PGID=${PGID}
             - PUID=${PUID}
-            - TZ=${TZ}            
+            - TZ=${TZ}    
+      deploy:
+          resources:
+            limits:
+              cpus: '0.01'
+              memory: 64M        
             
 networks:
   podcast-net:

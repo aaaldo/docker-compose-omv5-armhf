@@ -14,17 +14,29 @@ services:
             - PUID=${PUID}
             - PGID=${PGID}
         networks:
-          - stack-net
+          - maintenance-net
         restart: unless-stopped
+        deploy:
+          resources:
+            limits:
+              cpus: '0.01'
+              memory: 256M
+        
     watchtower:
         image: v2tec/watchtower:armhf-latest
         container_name: watchtower
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
         networks:
-          - stack-net
+          - maintenance-net
         command: --interval 43200
         restart: unless-stopped
+        deploy:
+          resources:
+            limits:
+              cpus: '0.01'
+              memory: 32M        
+        
     uptime-kuma:
       image: louislam/uptime-kuma:latest
       container_name: uptime-kuma
@@ -33,9 +45,14 @@ services:
       volumes:
         - ${CONFIG_PATH}/UptimeKuma:/app/data:rw
       networks:
-          - stack-net
+          - maintenance-net
       restart: unless-stopped
+      deploy:
+          resources:
+            limits:
+              cpus: '0.01'
+              memory: 128M
  
 
 networks:
-  stack-net:
+  maintenance-net:
