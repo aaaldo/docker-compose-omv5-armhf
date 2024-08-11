@@ -18,6 +18,7 @@ services:
         - 1.1.1.1
         - 8.8.8.8
       volumes:
+        - ./protonvpn/:/etc/openvpn/custom/
         - /etc/localtime:/etc/localtime:ro
         - ${CONFIG_PATH}:/config
         - ${DATA_PATH}:/data
