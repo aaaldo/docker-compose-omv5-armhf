@@ -166,6 +166,29 @@ services:
             limits:
               cpus: '0.5'
               memory: 512M
+              
+  overseerr:
+    image: lscr.io/linuxserver/overseerr:latest
+    container_name: overseerr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${CONFIG_PATH}/Overseerr:/config
+    ports:
+      - 5055:5055
+    networks:
+      - stack-net
+    dns:
+        - 1.1.1.1
+        - 8.8.8.8
+    restart: unless-stopped
+    deploy:
+          resources:
+            limits:
+              cpus: '0.5'
+              memory: 256M
 
 networks:
   transmission-net:
