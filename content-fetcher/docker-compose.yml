@@ -167,17 +167,19 @@ services:
               cpus: '0.5'
               memory: 512M
               
-  overseerr:
-    image: lscr.io/linuxserver/overseerr:latest
-    container_name: overseerr
+   reiverr:
+    image: ghcr.io/aleksilassila/reiverr:latest
+    container_name: reiverr
+    ports:
+      - 9494:9494
     environment:
+      - SECRET=${REIVERR_SECRET}
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
     volumes:
-      - ${CONFIG_PATH}/Overseerr:/config
-    ports:
-      - 5055:5055
+      - ${CONFIG_PATH}/Reiverr/config:/config
+      - ${CONFIG_PATH}/Reiverr/plugins:/plugins
     networks:
       - stack-net
     dns:
