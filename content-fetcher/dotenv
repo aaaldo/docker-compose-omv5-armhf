@@ -9,3 +9,4 @@ OPENVPN_USERNAME= <your VPN provider username>
 OPENVPN_PASSWORD= <your VPN provider password>
 OPENVPN_CONFIG= <exemple : nl-12.protonvpn.com.udp>
 LOCAL_NETWORK= <exemple : 192.168.1.0/24>
+REIVERR_SECRET= <a simple secret string of your choice>
