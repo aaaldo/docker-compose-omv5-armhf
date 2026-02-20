@@ -18,13 +18,12 @@ services:
         - 1.1.1.1
         - 8.8.8.8
       volumes:
-        - ./protonvpn/:/etc/openvpn/custom/
         - /etc/localtime:/etc/localtime:ro
         - ${CONFIG_PATH}:/config
         - ${DATA_PATH}:/data
       environment:
             - PGID=${PGID}
-            - PUID=${PUID}          
+            - PUID=${PUID}
             - WEBPROXY_ENABLED=true
             - OPENVPN_PROVIDER=${OPENVPN_PROVIDER}
             - OPENVPN_USERNAME=${OPENVPN_USERNAME}
@@ -145,7 +144,7 @@ services:
           resources:
             limits:
               cpus: '0.5'
-              memory: 256M
+              memory: 512M
     
     
   flaresolverr:
@@ -167,30 +166,35 @@ services:
               cpus: '0.5'
               memory: 512M
               
-   reiverr:
-    image: ghcr.io/aleksilassila/reiverr:latest
-    container_name: reiverr
-    ports:
-      - 9494:9494
+  seerr:
+    image: seerr/seerr:latest
+    init: true
+    container_name: seerr
     environment:
-      - SECRET=${REIVERR_SECRET}
-      - PUID=${PUID}
-      - PGID=${PGID}
+      - LOG_LEVEL=debug
       - TZ=${TZ}
-    volumes:
-      - ${CONFIG_PATH}/Reiverr/config:/config
-      - ${CONFIG_PATH}/Reiverr/plugins:/plugins
+      - PORT=5055 #optional
     networks:
       - stack-net
     dns:
         - 1.1.1.1
         - 8.8.8.8
+    ports:
+      - 5055:5055
+    volumes:
+      - ${CONFIG_PATH}/Seer:/app/config
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/status || exit 1
+      start_period: 20s
+      timeout: 3s
+      interval: 15s
+      retries: 3
     restart: unless-stopped
     deploy:
-          resources:
-            limits:
-              cpus: '0.5'
-              memory: 256M
+      resources:
+        limits:
+            cpus: '0.5'
+            memory: 512M
 
 networks:
   transmission-net:
